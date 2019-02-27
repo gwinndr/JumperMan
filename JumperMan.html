@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+            <title>2D Shapes</title>
+            <script type="text/javascript" src="./Common/webgl-utils.js"></script>
+            <script type="text/javascript" src="./Common/initShaders.js"></script>
+            <script type="text/javascript" src="./Common/MV.js"></script>
+            <script type="text/javascript" src="TurningShapes.js"></script>
+
+            <script type="x-shader/x-vertex" id="vertex-shader">
+                attribute vec4 myPosition;
+                uniform float theta;
+                void main() {
+                    float xf;
+                    float yf;
+                    float xi;
+                    float yi;
+
+                    xi = myPosition.x;
+                    yi = myPosition.y;
+
+                    xf =  xi * cos( theta ) + yi * sin( theta );
+                    yf = -xi * sin( theta ) + yi * cos( theta );
+
+                    gl_Position.x = xf;
+                    gl_Position.y = yf;
+                    gl_Position.z = .0;
+                    gl_Position.w = 1.0;
+
+                    gl_PointSize = 1.0;
+                }
+                </script>
+
+            <script type="x-shader/x-fragment" id="fragment-shader">
+                precision mediump float;
+                uniform vec4 shapeColor;
+                void main() {
+                    gl_FragColor = shapeColor;
+                }
+            </script>
+    </head>
+
+    <body onload="init()">
+        <canvas width="700" height="700" id="gl-canvas">
+        </canvas>
+    </body>
+</html>
