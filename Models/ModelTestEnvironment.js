@@ -7,6 +7,9 @@
 var gl;
 var ShaderProgram;
 var JumperManModel;
+var SpikeModel;
+var PlatformModel;
+var PelletModel;
 
 // Initializes the model test environment with a light-grey background
 function initTestEnvironment()
@@ -25,7 +28,10 @@ function initTestEnvironment()
     ShaderProgram = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( ShaderProgram );
 
-    JumperManModel = InitJumperManModel(0.3, 100);
+    //JumperManModel = InitJumperManModel(1.0, 100);
+    //SpikeModel = InitSpikeModel(0.2);
+    PlatformModel = InitPlatformModel(0.4, 0.08);
+    //PelletModel = InitPelletModel(0.02, 100);
     render();
 }
 
@@ -34,5 +40,8 @@ function render()
 {
     // Force the WebGL context to clear the color buffer
     gl.clear( gl.COLOR_BUFFER_BIT );
-    RenderModel(JumperManModel, ShaderProgram);
+    //RenderModel(JumperManModel, ShaderProgram);
+    //RenderModel(SpikeModel, ShaderProgram);
+    RenderModel(PlatformModel, ShaderProgram);
+    //RenderModel(PelletModel, ShaderProgram);
 }

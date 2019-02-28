@@ -8,6 +8,9 @@
         PolygonMeta: PolygonMeta,
         Colors: vec4 list of colors,
         Buf_Vert: gl.createBuffer() object
+        TransX: float, X transformation
+        TransY: float, Y transformation
+        Rotation: float, Rotation in radians
     }
 
     PolygonMeta:
@@ -28,6 +31,9 @@ function RenderModel(model, shaderProgram)
     gl.enableVertexAttribArray(position);
 
     color_unif = gl.getUniformLocation(shaderProgram, "color");
+    transX_unif = gl.getUniformLocation(shaderProgram, "transX");
+    transY_unif = gl.getUniformLocation(shaderProgram, "transY");
+    rotation_unif = gl.getUniformLocation(shaderProgram, "rotationTheta");
 
     // Rendering all our faces using the PolygonMeta list that contains polygon info
     var offset = 0;
@@ -42,6 +48,10 @@ function RenderModel(model, shaderProgram)
         color_ind += 1;
 
         gl.uniform4f(color_unif, color[0], color[1], color[2], color[3]);
+        gl.uniform1f(transX_unif, model.TransX);
+        gl.uniform1f(transY_unif, model.TransY);
+        gl.uniform1f(rotation_unif, model.Rotation);
+
 
         if(meta.triangle_fan)
             gl.drawArrays(gl.TRIANGLE_FAN, offset, num_points);

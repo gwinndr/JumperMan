@@ -6,43 +6,60 @@
             <script type="text/javascript" src="./Common/webgl-utils.js"></script>
             <script type="text/javascript" src="./Common/initShaders.js"></script>
             <script type="text/javascript" src="./Common/MV.js"></script>
-            <script type="text/javascript" src="TurningShapes.js"></script>
+            <script type="text/javascript" src="./JumperMan.js"></script>
+
+            <!-- Model helpers -->
+            <script type="text/javascript" src="./Models/RenderModel.js"></script>
+            <script type="text/javascript" src="./Models/Circles.js"></script>
+
+            <!-- Models -->
+            <script type="text/javascript" src="./Models/JumperManModel.js"></script>
+            <script type="text/javascript" src="./Models/SpikeModel.js"></script>
+            <script type="text/javascript" src="./Models/PlatformModel.js"></script>
+            <script type="text/javascript" src="./Models/PelletModel.js"></script>
 
             <script type="x-shader/x-vertex" id="vertex-shader">
-                attribute vec4 myPosition;
-                uniform float theta;
-                void main() {
-                    float xf;
-                    float yf;
-                    float xi;
-                    float yi;
+            attribute vec4 myPosition;
 
-                    xi = myPosition.x;
-                    yi = myPosition.y;
+            // I'd rather have this computation done in the shader
+            uniform float rotationTheta;
+            uniform float transX;
+            uniform float transY;
 
-                    xf =  xi * cos( theta ) + yi * sin( theta );
-                    yf = -xi * sin( theta ) + yi * cos( theta );
+            void main()
+            {
+                float xi;
+                float yi;
 
-                    gl_Position.x = xf;
-                    gl_Position.y = yf;
-                    gl_Position.z = .0;
-                    gl_Position.w = 1.0;
+                xi = myPosition.x;
+                yi = myPosition.y;
 
-                    gl_PointSize = 1.0;
-                }
-                </script>
+                gl_Position.x = xi * cos(rotationTheta) +
+                    yi * sin(rotationTheta)
+                    + transX;
 
-            <script type="x-shader/x-fragment" id="fragment-shader">
-                precision mediump float;
-                uniform vec4 shapeColor;
-                void main() {
-                    gl_FragColor = shapeColor;
-                }
-            </script>
+                gl_Position.y = xi * -sin(rotationTheta) +
+                    yi * cos(rotationTheta)
+                    + transY;
+
+                gl_Position.z = myPosition.z;
+                gl_Position.w = myPosition.w;
+            }
+        </script>
+
+        <script type="x-shader/x-fragment" id="fragment-shader">
+            precision mediump float;
+            uniform vec4 color;
+
+            void main()
+            {
+                gl_FragColor = color;
+            }
+        </script>
     </head>
 
     <body onload="init()">
-        <canvas width="700" height="700" id="gl-canvas">
+        <canvas width="1000" height="800" id="gl-canvas">
         </canvas>
     </body>
 </html>

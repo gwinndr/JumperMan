@@ -4,12 +4,12 @@
 */
 
 // Function to create the JumperManModel
-// Model returned as a data structure to be used with RenderJumperManModel
+// Model returned as a data structure to be used with RenderModel
 // Size allows you to tweak the overall size of the model
 // numPolyPerCircle allows for a variable number of polygons per circular object
 function InitJumperManModel(size, numPolyPerCircle)
 {
-    Vertices = [
+    var Vertices = [
         // Head
         scale(size, vec3( -0.2, 1.0, .0)),
         scale(size, vec3(  0.2, 1.0, .0)),
@@ -69,7 +69,7 @@ function InitJumperManModel(size, numPolyPerCircle)
     width_height    = scale(size, vec2( 0.03, 0.06 ));
     AddCircleToVert(Vertices, numPolyPerCircle, center, width_height, 0.0);
 
-    Colors = [
+    var Colors = [
         // Head =  (255,205,148)
         vec4(1.0, 0.8039, 0.5804, 1.0),
 
@@ -101,10 +101,10 @@ function InitJumperManModel(size, numPolyPerCircle)
         vec4(.0, .0, .0, 1.0)
     ];
 
-    buf_vert = gl.createBuffer();
+    var buf_vert = gl.createBuffer();
 
     // Setting up the polygon metadata
-    PolygonMeta = [
+    var PolygonMeta = [
         // head
         {count: 4, triangle_fan: false},
         // Body_Left
@@ -123,15 +123,18 @@ function InitJumperManModel(size, numPolyPerCircle)
         {count: numPolyPerCircle, triangle_fan: true},
         // Left_Eye
         {count: numPolyPerCircle, triangle_fan: true},
-        // Right_Eye Outer
+        // Right_Eye
         {count: numPolyPerCircle, triangle_fan: true}
     ];
 
-    jumperMan = {
+    var jumperMan = {
         Vertices: Vertices,
         PolygonMeta: PolygonMeta,
         Colors: Colors,
         Buf_Vert: buf_vert,
+        TransX: 0.0,
+        TransY: 0.0,
+        Rotation: 0.0
     };
 
     return jumperMan;
