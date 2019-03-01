@@ -21,7 +21,7 @@ function init()
     if (!gl) { alert( "WebGL is not available" ); }
 
     // Set up the viewport
-    gl.viewport( 0, 0, 1200, 1000 );   // x, y, width, height
+    gl.viewport( 0, 0, 1000, 800 );   // x, y, width, height
 
     // Set up the background color
     gl.clearColor( 0.90, 0.90, 0.90, 1.0 );
@@ -31,9 +31,9 @@ function init()
 
     JumperManModel = InitJumperManModel(1.0, 100);
     SpikeModel = InitSpikeModel(0.2);
-    BigPlatformModel = InitPlatformModel(2.0, 0.08);
-    SmallPlatformModel1 = InitPlatformModel(0.4, 0.04);
-    SmallPlatformModel2 = InitPlatformModel(0.4, 0.04);
+    BigPlatformModel = InitPlatformModel(2.0, 0.09);
+    SmallPlatformModel1 = InitPlatformModel(0.4, 0.05);
+    SmallPlatformModel2 = InitPlatformModel(0.4, 0.05);
     PelletModel = InitPelletModel(0.02, 100);
 
     initializeEnvironment();
@@ -51,13 +51,13 @@ function render()
 // Renders the environment
 function initializeEnvironment()
 {
-    BigPlatformModel.TransY = -0.5
+    BigPlatformModel.TransY = -0.4
 
-    SmallPlatformModel1.TransX = -0.6;
-    SmallPlatformModel1.TransY = -0.1;
+    SmallPlatformModel1.TransX = -0.5;
+    SmallPlatformModel1.TransY = 0.0;
 
-    SmallPlatformModel2.TransX = 0.3;
-    SmallPlatformModel2.TransY = -0.1;
+    SmallPlatformModel2.TransX = 0.5;
+    SmallPlatformModel2.TransY = 0.0;
 }
 
 // Renders the environment
