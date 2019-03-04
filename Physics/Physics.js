@@ -8,6 +8,7 @@
 function InitPhysics(model, viewportWidth, viewportHeight)
 {
     model.Physics = {
+        xy_force: [.0, .0],
         xy_velocity: [.0, .0],
         t: -1, // Time
         pixelWidth: viewportWidth,
@@ -33,61 +34,24 @@ function InitPhysics(model, viewportWidth, viewportHeight)
 function SetPhysicsTrans(model, snapObjects)
 {
     // Applying user forces
-    var wasDown = model.Physics.downEvent;
-    var downForce = model.Physics.downForce;
-    var leftEvent = model.Physics.leftEvent;
-    var rightEvent = model.Physics.rightEvent;
-    var leftForce = model.Physics.leftForce;
-    var rightForce = model.Physics.rightForce;
-
-    var addedForce;
-    if(leftEvent && rightEvent)
-    {
-        addedForce = rightForce - leftForce;
-        model.Physics.xy_velocity[0] = addedForce;
-    }
-    else if(leftEvent)
-    {
-        addedForce = -leftForce;
-        model.Physics.xy_velocity[0] = addedForce;
-    }
-    else if(rightEvent)
-    {
-        addedForce = rightForce;
-        model.Physics.xy_velocity[0] = addedForce;
-    }
-    if(model.Physics.downEvent)
-    {
-        model.Physics.xy_velocity[1] -= model.Physics.downForce;
-    }
-    if(model.Physics.jumpEvent && model.Physics.snappedToGround)
-    {
-        // Remove gravitational influence when snapped to ground
-        model.Physics.xy_velocity[1] = model.Physics.jumpForce;
-        model.Physics.snappedToGround = false;
-    }
+    model.Physics.xy_velocity[0] += model.Physics.xy_force[0];
+    model.Physics.xy_velocity[1] += model.Physics.xy_force[1];
 
     var before_transX = model.TransX;
     var before_transY = model.TransY;
     model.TransX += model.Physics.xy_velocity[0];
     model.TransY += model.Physics.xy_velocity[1];
 
-    if(leftEvent || rightEvent)
-    {
-        model.Physics.xy_velocity[0] -= addedForce;
-    }
-
     var moved_hitbox_after = GetMovedHitbox(model, model.TransX, model.TransY, model.Rotation);
 
     // This initialized implies that we want it not rendered if off the screen
     if(model.Physics.onScreen == true)
     {
-        console.log(moved_hitbox_after);
         OffScreen(model, moved_hitbox_after);
         return;
     }
-
-    MoveBackIfOutsideBoundary(model, moved_hitbox_after);
+    else
+        MoveBackIfOutsideBoundary(model, moved_hitbox_after);
 
     // Will snap to our snapObjects if gravity intersects
     if(model.Physics.xy_velocity[1] < 0.0 && snapObjects.length > 0)
@@ -101,11 +65,12 @@ function SetPhysicsTrans(model, snapObjects)
             {
                 model.TransY = obj_moved_hitbox[0][1] - model.Hitbox[1][1];
                 model.Physics.xy_velocity[1] = 0.0;
+                model.Physics.xy_force[1] = 0.0;
                 model.Physics.snappedToGround = true;
                 model.Physics.jumpEvent = false;
                 model.Physics.downEvent = false;
                 model.Physics.snapObjHitbox = obj_moved_hitbox;
-                return;
+                break;
             }
             else
             {
@@ -113,10 +78,12 @@ function SetPhysicsTrans(model, snapObjects)
             }
         }
     }
-    if(wasDown)
-    {
-        model.Physics.xy_velocity[1] += downForce;
-    }
+
+
+    model.Physics.xy_velocity[0] -= model.Physics.xy_force[0];
+    model.Physics.xy_velocity[1] -= model.Physics.xy_force[1];
+    model.Physics.xy_force[0] = 0.0;
+    model.Physics.xy_force[1] = 0.0;
 }
 
 // Helper for SetPhysicsTrans.

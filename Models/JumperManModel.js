@@ -146,7 +146,7 @@ function InitJumperManModel(size, numPolyPerCircle)
 // renderIt tells whether or not the hitbox should be rendered
 function InitJumperManHitbox(model, size, renderIt)
 {
-    var upperleft = scale(size, vec3(-0.41, 1.0, .0));
+    var upperleft = scale(size, vec3( -0.4,  0.6, .0));
     var bottomright = scale(size, vec3(0.41, -0.6, .0));
     upperleft.push(1.0);
     bottomright.push(1.0);

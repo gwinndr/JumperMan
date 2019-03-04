@@ -16,7 +16,8 @@ function InitPelletModel(radius, numPoly)
     AddCircleToVert(Vertices, numPoly, center, widthHeight, rotation)
 
     var Colors = [
-        vec4(.0, .0, .0, 1.0)
+        //34-139-34
+        vec4(.1333, .5451, .1333, 1.0)
     ];
 
     // Setting up the polygon metadata
@@ -36,6 +37,8 @@ function InitPelletModel(radius, numPoly)
         TransY: 0.0,
         Rotation: 0.0
     };
+
+    InitPelletHitbox(pelletModel, radius, false);
 
     return pelletModel;
 }

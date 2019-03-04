@@ -4,6 +4,28 @@
     NOTE: There is no friction
 */
 
+function ApplyMovementForces(model)
+{
+    if(model.Physics.leftEvent)
+    {
+        model.Physics.xy_force[0] -= model.Physics.leftForce;
+    }
+    if(model.Physics.rightEvent)
+    {
+        model.Physics.xy_force[0] += model.Physics.rightForce;
+    }
+    if(model.Physics.downEvent)
+    {
+        model.Physics.xy_force[1] -= model.Physics.downForce;
+    }
+    if(model.Physics.jumpEvent && model.Physics.snappedToGround)
+    {
+        // Remove gravitational influence when snapped to ground
+        model.Physics.xy_velocity[1] += model.Physics.jumpForce;
+        model.Physics.snappedToGround = false;
+    }
+}
+
 function Jump(model, force)
 {
     model.Physics.jumpEvent = true;

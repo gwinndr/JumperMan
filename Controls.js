@@ -10,6 +10,7 @@
 var LeftRightForce;
 var JumpForce;
 var DownForce;
+var ShootForce;
 
 function keyDown(event)
 {
@@ -66,5 +67,8 @@ function canvasClicked(event)
     xCoord = 2.0 * canvasX / 1000.0-1.0;
     yCoord = -(2.0 * canvasY / 800.0-1.0);
 
-    ShootEvent(PelletModel, JumperManModel, 0.05, xCoord, yCoord);
+    //console.log(xCoord);
+    //console.log(yCoord);
+
+    ShootEvent(PelletModel, JumperManModel, ShootForce, xCoord, yCoord);
 }

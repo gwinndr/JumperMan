@@ -8,7 +8,6 @@ function InitPellet(model, viewportWidth, viewportHeight)
 {
     InitPhysics(model, viewportWidth, viewportHeight);
     model.Physics.onScreen = false;
-    console.log(model);
 }
 
 function ShootEvent(model, modelFrom, force, coordX, coordY)
@@ -17,8 +16,8 @@ function ShootEvent(model, modelFrom, force, coordX, coordY)
     {
         model.Physics.onScreen = true;
 
-        var startX = (modelFrom.Hitbox[1][0] - modelFrom.Hitbox[0][0]) / 2.0 + modelFrom.TransX;
-        var startY = (modelFrom.Hitbox[0][1] - modelFrom.Hitbox[1][1]) / 2.0 + modelFrom.TransY;
+        var startX = (modelFrom.Hitbox[1][0] + modelFrom.Hitbox[0][0]) / 2.0 + modelFrom.TransX;
+        var startY = (modelFrom.Hitbox[0][1] + modelFrom.Hitbox[1][1]) / 2.0 + modelFrom.TransY;
 
         model.TransX = startX;
         model.TransY = startY;

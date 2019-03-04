@@ -18,7 +18,8 @@ function InitPlatformModel(length, height)
     ];
 
     var Colors = [
-        vec4(0.30, 0.30, 0.30, 1.0)
+        //0-0-128
+        vec4(0.0, 0.0, 0.3, 1.0)
     ];
 
     // Setting up the polygon metadata
