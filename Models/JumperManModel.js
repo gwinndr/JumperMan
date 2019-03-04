@@ -137,5 +137,34 @@ function InitJumperManModel(size, numPolyPerCircle)
         Rotation: 0.0
     };
 
+    InitJumperManHitbox(jumperMan, size, false);
+
     return jumperMan;
+}
+
+// Generates the hitbox
+// renderIt tells whether or not the hitbox should be rendered
+function InitJumperManHitbox(model, size, renderIt)
+{
+    var upperleft = scale(size, vec3(-0.41, 1.0, .0));
+    var bottomright = scale(size, vec3(0.41, -0.6, .0));
+    upperleft.push(1.0);
+    bottomright.push(1.0);
+
+    model.Hitbox = [
+        upperleft,
+        bottomright
+    ];
+
+    // Making sure it's a boolean
+    if(renderIt == true)
+    {
+        model.Vertices.push(upperleft,
+            vec3(-upperleft[0], upperleft[1], .0),
+            vec3(upperleft[0], bottomright[1], .0),
+            bottomright
+        );
+        model.Colors.push(vec4(0.3, 0.3, 0.3, 1.0));
+        model.PolygonMeta.push({count: 4, triangle_fan: false});
+    }
 }

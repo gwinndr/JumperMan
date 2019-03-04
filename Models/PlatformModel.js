@@ -40,5 +40,33 @@ function InitPlatformModel(length, height)
         Rotation: 0.0
     };
 
+    InitPlatformHitbox(platformModel, length, height, false);
+
     return platformModel;
+}
+
+function InitPlatformHitbox(model, length, height, renderIt)
+{
+    var half_length = length/2.0;
+    var half_height = height/2.0;
+
+    var upperleft = vec4(-half_length, half_height, .0, 1.0);
+    var bottomright = vec4(half_length, -half_height, .0, 1.0);
+
+    model.Hitbox = [
+        vec4(-half_length, half_height, .0, 1.0),
+        vec4(half_length, -half_height, .0, 1.0)
+    ];
+
+    // Making sure it's a boolean
+    if(renderIt == true)
+    {
+        model.Vertices.push(upperleft,
+            vec3(-upperleft[0], upperleft[1], .0),
+            vec3(upperleft[0], bottomright[1], .0),
+            bottomright
+        );
+        model.Colors.push(vec4(1.0, 1.0, 1.0, 1.0));
+        model.PolygonMeta.push({count: 4, triangle_fan: false});
+    }
 }

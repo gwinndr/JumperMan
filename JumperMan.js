@@ -12,6 +12,10 @@ var SmallPlatformModel1;
 var SmallPlatformModel2;
 var PelletModel;
 
+var GamePaused;
+var GravPixelsPerSecond;
+
+
 // Entry
 function init()
 {
@@ -29,14 +33,23 @@ function init()
     ShaderProgram = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( ShaderProgram );
 
-    JumperManModel = InitJumperManModel(1.0, 100);
+    JumperManModel = InitJumperManModel(0.15, 100);
     SpikeModel = InitSpikeModel(0.2);
     BigPlatformModel = InitPlatformModel(2.0, 0.09);
     SmallPlatformModel1 = InitPlatformModel(0.4, 0.05);
     SmallPlatformModel2 = InitPlatformModel(0.4, 0.05);
     PelletModel = InitPelletModel(0.02, 100);
 
+    GamePaused = false;
+    GravPixelsPerSecond = 9.8 * 2.5;
+    LeftRightForce = 0.01;
+    JumpForce = 0.025;
+    DownForce = 0.0090;
+
     initializeEnvironment();
+    InitPhysics(JumperManModel, 1000, 800);
+    StartGravityEvent(JumperManModel);
+
     render();
 }
 
@@ -46,6 +59,19 @@ function render()
     // Force the WebGL context to clear the color buffer
     gl.clear( gl.COLOR_BUFFER_BIT );
     renderEnvironment();
+
+    if(GamePaused == false)
+    {
+        AddGravity(JumperManModel, GravPixelsPerSecond);
+        SetPhysicsTrans(JumperManModel, [BigPlatformModel, SmallPlatformModel1, SmallPlatformModel2]);
+    }
+
+    RenderModel(JumperManModel, ShaderProgram);
+
+    if(GamePaused == false)
+    {
+        requestAnimFrame(render);
+    }
 }
 
 // Renders the environment

@@ -2,11 +2,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-            <title>2D Shapes</title>
+            <title>Jumper Man</title>
             <script type="text/javascript" src="./Common/webgl-utils.js"></script>
             <script type="text/javascript" src="./Common/initShaders.js"></script>
             <script type="text/javascript" src="./Common/MV.js"></script>
             <script type="text/javascript" src="./JumperMan.js"></script>
+            <script type="text/javascript" src="./Controls.js"></script>
 
             <!-- Model helpers -->
             <script type="text/javascript" src="./Models/RenderModel.js"></script>
@@ -18,32 +19,21 @@
             <script type="text/javascript" src="./Models/PlatformModel.js"></script>
             <script type="text/javascript" src="./Models/PelletModel.js"></script>
 
+            <!-- Physics engine -->
+            <script type="text/javascript" src="./Physics/Physics.js"></script>
+            <script type="text/javascript" src="./Physics/Collision.js"></script>
+            <script type="text/javascript" src="./Physics/Time.js"></script>
+            <script type="text/javascript" src="./Physics/Gravity.js"></script>
+            <script type="text/javascript" src="./Physics/Move.js"></script>
+
             <script type="x-shader/x-vertex" id="vertex-shader">
             attribute vec4 myPosition;
 
-            // I'd rather have this computation done in the shader
-            uniform float rotationTheta;
-            uniform float transX;
-            uniform float transY;
+            uniform mat4 tranformation;
 
             void main()
             {
-                float xi;
-                float yi;
-
-                xi = myPosition.x;
-                yi = myPosition.y;
-
-                gl_Position.x = xi * cos(rotationTheta) +
-                    yi * sin(rotationTheta)
-                    + transX;
-
-                gl_Position.y = xi * -sin(rotationTheta) +
-                    yi * cos(rotationTheta)
-                    + transY;
-
-                gl_Position.z = myPosition.z;
-                gl_Position.w = myPosition.w;
+                gl_Position = tranformation * myPosition;
             }
         </script>
 
@@ -58,7 +48,7 @@
         </script>
     </head>
 
-    <body onload="init()">
+    <body onload="init()" onkeydown="keyDown(event)" onkeyup="keyUp(event)">
         <canvas width="1000" height="800" id="gl-canvas">
         </canvas>
     </body>

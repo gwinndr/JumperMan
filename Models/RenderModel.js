@@ -11,6 +11,7 @@
         TransX: float, X transformation
         TransY: float, Y transformation
         Rotation: float, Rotation in radians
+        Hitbox: vec4 list of vertices defining the collision hitbox
     }
 
     PolygonMeta:
@@ -30,10 +31,8 @@ function RenderModel(model, shaderProgram)
     gl.vertexAttribPointer(position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(position);
 
-    color_unif = gl.getUniformLocation(shaderProgram, "color");
-    transX_unif = gl.getUniformLocation(shaderProgram, "transX");
-    transY_unif = gl.getUniformLocation(shaderProgram, "transY");
-    rotation_unif = gl.getUniformLocation(shaderProgram, "rotationTheta");
+    var color_unif = gl.getUniformLocation(shaderProgram, "color");
+    var trans_unif = gl.getUniformLocation(shaderProgram, "tranformation");
 
     // Rendering all our faces using the PolygonMeta list that contains polygon info
     var offset = 0;
@@ -47,10 +46,15 @@ function RenderModel(model, shaderProgram)
         color = model.Colors[p_ind];
         color_ind += 1;
 
+        var Transformation = mat4(
+            Math.cos(model.Rotation), Math.sin(model.Rotation), .0, model.TransX,
+            -Math.sin(model.Rotation), Math.cos(model.Rotation), .0,  model.TransY,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        );
+
         gl.uniform4f(color_unif, color[0], color[1], color[2], color[3]);
-        gl.uniform1f(transX_unif, model.TransX);
-        gl.uniform1f(transY_unif, model.TransY);
-        gl.uniform1f(rotation_unif, model.Rotation);
+        gl.uniformMatrix4fv(trans_unif, false, flatten(Transformation));
 
 
         if(meta.triangle_fan)

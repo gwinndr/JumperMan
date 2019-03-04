@@ -29,8 +29,13 @@ function initTestEnvironment()
     gl.useProgram( ShaderProgram );
 
     //JumperManModel = InitJumperManModel(1.0, 100);
+    //InitJumperManHitbox(JumperManModel, 1.0, false);
+
     //SpikeModel = InitSpikeModel(0.2);
+
     PlatformModel = InitPlatformModel(0.4, 0.08);
+    InitPlatformHitbox(PlatformModel, 0.4, 0.08, true);
+
     //PelletModel = InitPelletModel(0.02, 100);
     render();
 }
