@@ -35,14 +35,26 @@ function SetPhysicsTrans(model, snapObjects)
     // Applying user forces
     var wasDown = model.Physics.downEvent;
     var downForce = model.Physics.downForce;
-    model.Physics.xy_velocity[0] = 0.0;
-    if(model.Physics.leftEvent)
+    var leftEvent = model.Physics.leftEvent;
+    var rightEvent = model.Physics.rightEvent;
+    var leftForce = model.Physics.leftForce;
+    var rightForce = model.Physics.rightForce;
+
+    var addedForce;
+    if(leftEvent && rightEvent)
     {
-        model.Physics.xy_velocity[0] -= model.Physics.leftForce;
+        addedForce = rightForce - leftForce;
+        model.Physics.xy_velocity[0] = addedForce;
     }
-    if(model.Physics.rightEvent)
+    else if(leftEvent)
     {
-        model.Physics.xy_velocity[0] += model.Physics.rightForce;
+        addedForce = -leftForce;
+        model.Physics.xy_velocity[0] = addedForce;
+    }
+    else if(rightEvent)
+    {
+        addedForce = rightForce;
+        model.Physics.xy_velocity[0] = addedForce;
     }
     if(model.Physics.downEvent)
     {
@@ -60,7 +72,20 @@ function SetPhysicsTrans(model, snapObjects)
     model.TransX += model.Physics.xy_velocity[0];
     model.TransY += model.Physics.xy_velocity[1];
 
+    if(leftEvent || rightEvent)
+    {
+        model.Physics.xy_velocity[0] -= addedForce;
+    }
+
     var moved_hitbox_after = GetMovedHitbox(model, model.TransX, model.TransY, model.Rotation);
+
+    // This initialized implies that we want it not rendered if off the screen
+    if(model.Physics.onScreen == true)
+    {
+        console.log(moved_hitbox_after);
+        OffScreen(model, moved_hitbox_after);
+        return;
+    }
 
     MoveBackIfOutsideBoundary(model, moved_hitbox_after);
 
@@ -133,5 +158,25 @@ function MoveBackIfOutsideBoundary(model, movedHitbox)
     else if(movedHitbox[1][0] > 1.0)
     {
         model.TransX = 0.999 - model.Hitbox[1][0];
+    }
+}
+
+function OffScreen(model, movedHitbox)
+{
+    if(movedHitbox[0][0] < -1.0)
+    {
+        model.Physics.onScreen  = false;
+    }
+    else if(movedHitbox[1][0] > 1.0)
+    {
+        model.Physics.onScreen  = false;
+    }
+    else if(movedHitbox[1][1] < -1.0)
+    {
+        model.Physics.onScreen  = false;
+    }
+    else if(movedHitbox[0][1] > 1.0)
+    {
+        model.Physics.onScreen  = false;
     }
 }

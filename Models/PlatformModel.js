@@ -57,6 +57,7 @@ function InitPlatformHitbox(model, length, height, renderIt)
         vec4(-half_length, half_height, .0, 1.0),
         vec4(half_length, -half_height, .0, 1.0)
     ];
+    model.HitboxType = "Rect";
 
     // Making sure it's a boolean
     if(renderIt == true)

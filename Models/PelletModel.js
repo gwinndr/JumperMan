@@ -39,3 +39,28 @@ function InitPelletModel(radius, numPoly)
 
     return pelletModel;
 }
+
+function InitPelletHitbox(model, radius, renderIt)
+{
+    var upperleft = vec4(-radius, radius, .0, 1.0);
+    var bottomright = vec4(radius, -radius, .0, 1.0);
+
+    model.Hitbox = [
+        upperleft,
+        bottomright
+    ];
+    model.HitboxType = "Rect";
+
+    // Making sure it's a boolean
+    if(renderIt == true)
+    {
+        model.Vertices.push(
+            upperleft,
+            vec3(-upperleft[0], upperleft[1], .0),
+            vec3(upperleft[0], bottomright[1], .0),
+            bottomright
+        );
+        model.Colors.push(vec4(1.0, 1.0, 1.0, 1.0));
+        model.PolygonMeta.push({count: 4, triangle_fan: false});
+    }
+}

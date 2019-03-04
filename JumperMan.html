@@ -25,6 +25,7 @@
             <script type="text/javascript" src="./Physics/Time.js"></script>
             <script type="text/javascript" src="./Physics/Gravity.js"></script>
             <script type="text/javascript" src="./Physics/Move.js"></script>
+            <script type="text/javascript" src="./Physics/ShootPellet.js"></script>
 
             <script type="x-shader/x-vertex" id="vertex-shader">
             attribute vec4 myPosition;
@@ -49,7 +50,7 @@
     </head>
 
     <body onload="init()" onkeydown="keyDown(event)" onkeyup="keyUp(event)">
-        <canvas width="1000" height="800" id="gl-canvas">
+        <canvas width="1000" height="800" id="gl-canvas" onclick="canvasClicked(event)">
         </canvas>
     </body>
 </html>

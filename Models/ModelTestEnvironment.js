@@ -31,10 +31,11 @@ function initTestEnvironment()
     //JumperManModel = InitJumperManModel(1.0, 100);
     //InitJumperManHitbox(JumperManModel, 1.0, false);
 
-    //SpikeModel = InitSpikeModel(0.2);
+    SpikeModel = InitSpikeModel(0.2);
+    InitSpikeHitbox(SpikeModel, 0.2, true);
 
-    PlatformModel = InitPlatformModel(0.4, 0.08);
-    InitPlatformHitbox(PlatformModel, 0.4, 0.08, true);
+    //PlatformModel = InitPlatformModel(0.4, 0.08);
+    //InitPlatformHitbox(PlatformModel, 0.4, 0.08, true);
 
     //PelletModel = InitPelletModel(0.02, 100);
     render();
@@ -46,7 +47,7 @@ function render()
     // Force the WebGL context to clear the color buffer
     gl.clear( gl.COLOR_BUFFER_BIT );
     //RenderModel(JumperManModel, ShaderProgram);
-    //RenderModel(SpikeModel, ShaderProgram);
-    RenderModel(PlatformModel, ShaderProgram);
+    RenderModel(SpikeModel, ShaderProgram);
+    //RenderModel(PlatformModel, ShaderProgram);
     //RenderModel(PelletModel, ShaderProgram);
 }

@@ -155,6 +155,7 @@ function InitJumperManHitbox(model, size, renderIt)
         upperleft,
         bottomright
     ];
+    model.HitboxType = "Rect";
 
     // Making sure it's a boolean
     if(renderIt == true)
