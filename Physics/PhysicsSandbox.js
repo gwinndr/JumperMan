@@ -11,6 +11,7 @@ var BigPlatformModel;
 var SmallPlatformModel1;
 var SmallPlatformModel2;
 var PelletModel;
+var MovingSpikeModel;
 
 var GamePaused;
 var GravPixelsPerSecond;
@@ -48,13 +49,15 @@ function init()
     JumpForce = 0.025;
     DownForce = 0.0090;
     SpikeModelSize = 0.15;
-    SpikeModelVelocity = 0.05;
-    ShootForce = 0.015;
+    SpikeModelVelocity = 0.02;
+    ShootForce = 0.04;
 
     SpikeModel = InitSpikeModel(SpikeModelSize);
+    MovingSpikeModel = InitSpikeModel(SpikeModelSize);
+    InitPhysics(MovingSpikeModel, 1000, 800);
 
     initializeEnvironment();
-    InitPellet(PelletModel, 1000, 800);
+    InitPhysics(PelletModel, 1000, 800);
     InitPhysics(JumperManModel, 1000, 800);
     StartGravityEvent(JumperManModel);
 
@@ -71,18 +74,17 @@ function render()
     if(GamePaused == false)
     {
         AddGravity(JumperManModel, GravPixelsPerSecond);
-        ApplyMovementForces(JumperManModel);
         SetPhysicsTrans(JumperManModel, [BigPlatformModel, SmallPlatformModel1, SmallPlatformModel2]);
         if(ObjectsCollided(JumperManModel, SpikeModel))
         {
-            console.log("SPIKE COLLISION!");
+            console.log("STATIC SPIKE COLLISION!");
         }
 
-        //console.log(PelletModel.onScreen);
+
         if(PelletModel.Physics.onScreen == true)
         {
-            SetPhysicsTrans(PelletModel, []);
-            if(ObjectsCollided(PelletModel, SpikeModel))
+            SetPhysicsTrans(PelletModel);
+            if(ObjectsCollided(PelletModel, SpikeModel) || ObjectsCollided(PelletModel, MovingSpikeModel))
             {
                 console.log("SPIKE SHOT!");
                 PelletModel.Physics.onScreen = false;
@@ -90,6 +92,26 @@ function render()
             else
                 RenderModel(PelletModel, ShaderProgram);
         }
+
+        if(MovingSpikeModel.Physics.crossedScreen == false)
+        {
+            //ApplyMovementForces(MovingSpikeModel);
+            SetPhysicsTrans(MovingSpikeModel);
+            if(ObjectsCollided(JumperManModel, MovingSpikeModel))
+            {
+                console.log("MOVING SPIKE COLLISION!");
+            }
+
+            if(MovingSpikeModel.Physics.crossedScreen == false)
+            {
+                RenderModel(MovingSpikeModel, ShaderProgram);
+            }
+        }
+        else
+        {
+            getRandomSpikeMovement(MovingSpikeModel, -0.3, -0.1, SpikeModelVelocity);
+        }
+
     }
 
     RenderModel(SpikeModel, ShaderProgram);

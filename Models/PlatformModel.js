@@ -38,7 +38,8 @@ function InitPlatformModel(length, height)
         Buf_Vert: buf_vert,
         TransX: 0.0,
         TransY: 0.0,
-        Rotation: 0.0
+        Rotation: 0.0,
+        Type: "Environment"
     };
 
     InitPlatformHitbox(platformModel, length, height, false);

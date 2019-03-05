@@ -4,63 +4,75 @@
     NOTE: There is no friction
 */
 
-function ApplyMovementForces(model)
+function InitOnScreen(model, viewportWidth, viewportHeight)
 {
-    if(model.Physics.leftEvent)
-    {
-        model.Physics.xy_force[0] -= model.Physics.leftForce;
-    }
-    if(model.Physics.rightEvent)
-    {
-        model.Physics.xy_force[0] += model.Physics.rightForce;
-    }
-    if(model.Physics.downEvent)
-    {
-        model.Physics.xy_force[1] -= model.Physics.downForce;
-    }
-    if(model.Physics.jumpEvent && model.Physics.snappedToGround)
-    {
-        // Remove gravitational influence when snapped to ground
-        model.Physics.xy_velocity[1] += model.Physics.jumpForce;
-        model.Physics.snappedToGround = false;
-    }
+    InitPhysics(model, viewportWidth, viewportHeight);
+    model.Physics.onScreen = false;
 }
 
 function Jump(model, force)
 {
-    model.Physics.jumpEvent = true;
-    model.Physics.jumpForce = force;
+    if(model.Physics.jumpEvent == false)
+    {
+        model.Physics.jumpEvent = true;
+        model.Physics.jumpForce = force;
+        model.Physics.xy_force[1] += force;
+    }
 }
 
 function MoveDown(model, force)
 {
-    model.Physics.downEvent = true;
-    model.Physics.downForce = force;
+    if(model.Physics.downEvent == false)
+    {
+        model.Physics.downEvent = true;
+        model.Physics.downForce = force;
+        model.Physics.xy_velocity[1] -= force;
+    }
 }
 
 function MoveLeft(model, force)
 {
-    model.Physics.leftEvent = true;
-    model.Physics.leftForce = force;
+    if(model.Physics.leftEvent == false)
+    {
+        model.Physics.leftEvent = true;
+        model.Physics.leftForce = force;
+        model.Physics.xy_velocity[0] -= force;
+    }
 }
 
 function MoveRight(model, force)
 {
-    model.Physics.rightEvent = true;
-    model.Physics.rightForce = force;
+    if(model.Physics.rightEvent == false)
+    {
+        model.Physics.rightEvent = true;
+        model.Physics.rightForce = force;
+        model.Physics.xy_velocity[0] += force;
+    }
 }
 
 function StopLeft(model)
 {
-    model.Physics.leftEvent = false;
+    if(model.Physics.leftEvent == true)
+    {
+        model.Physics.leftEvent = false;
+        model.Physics.xy_velocity[0] += model.Physics.leftForce;
+    }
 }
 
 function StopRight(model)
 {
-    model.Physics.rightEvent = false;
+    if(model.Physics.rightEvent == true)
+    {
+        model.Physics.rightEvent = false;
+        model.Physics.xy_velocity[0] -= model.Physics.rightForce;
+    }
 }
 
 function StopDown(model)
 {
-    model.Physics.downEvent = false;
+    // Collision will handle the falling stop
+    if(model.Physics.downEvent == true)
+    {
+        model.Physics.downEvent = false;
+    }
 }

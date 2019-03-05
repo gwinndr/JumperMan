@@ -4,12 +4,6 @@
     NOTE: Only one pellet on screen at a time
 */
 
-function InitPellet(model, viewportWidth, viewportHeight)
-{
-    InitPhysics(model, viewportWidth, viewportHeight);
-    model.Physics.onScreen = false;
-}
-
 function ShootEvent(model, modelFrom, force, coordX, coordY)
 {
     if(model.Physics.onScreen == false)

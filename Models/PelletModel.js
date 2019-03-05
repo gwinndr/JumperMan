@@ -35,7 +35,8 @@ function InitPelletModel(radius, numPoly)
         Buf_Vert: buf_vert,
         TransX: 0.0,
         TransY: 0.0,
-        Rotation: 0.0
+        Rotation: 0.0,
+        Type: "Pellet"
     };
 
     InitPelletHitbox(pelletModel, radius, false);

@@ -134,7 +134,8 @@ function InitJumperManModel(size, numPolyPerCircle)
         Buf_Vert: buf_vert,
         TransX: 0.0,
         TransY: 0.0,
-        Rotation: 0.0
+        Rotation: 0.0,
+        Type: "JumperMan"
     };
 
     InitJumperManHitbox(jumperMan, size, false);
