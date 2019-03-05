@@ -12,7 +12,7 @@ function InitOnScreen(model, viewportWidth, viewportHeight)
 
 function Jump(model, force)
 {
-    if(model.Physics.jumpEvent == false)
+    if(model.Physics.jumpEvent == false && model.Physics.snappedToGround == true)
     {
         model.Physics.jumpEvent = true;
         model.Physics.jumpForce = force;
