@@ -1,6 +1,6 @@
 /*
     Damon Gwinn
-    JumperMan main file
+    JumperMan Physics testing playground
 */
 
 var gl;
@@ -19,6 +19,9 @@ var GravPixelsPerSecond;
 var SpikeModelSize;
 var SpikeModelVelocity;
 
+var VIEWPORT_WIDTH = 1000;
+var VIEWPORT_HEIGHT = 800;
+
 
 // Entry
 function init()
@@ -27,9 +30,11 @@ function init()
     var canvas=document.getElementById("gl-canvas");
     gl=WebGLUtils.setupWebGL(canvas);
     if (!gl) { alert( "WebGL is not available" ); }
+    canvas.width = VIEWPORT_WIDTH;
+    canvas.height = VIEWPORT_HEIGHT;
 
     // Set up the viewport
-    gl.viewport( 0, 0, 1000, 800 );   // x, y, width, height
+    gl.viewport( 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT );   // x, y, width, height
 
     // Set up the background color
     gl.clearColor( 0.90, 0.90, 0.90, 1.0 );
@@ -54,11 +59,11 @@ function init()
 
     SpikeModel = InitSpikeModel(SpikeModelSize);
     MovingSpikeModel = InitSpikeModel(SpikeModelSize);
-    InitPhysics(MovingSpikeModel, 1000, 800);
+    InitPhysics(MovingSpikeModel, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
     initializeEnvironment();
-    InitPhysics(PelletModel, 1000, 800);
-    InitPhysics(JumperManModel, 1000, 800);
+    InitPhysics(PelletModel, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+    InitPhysics(JumperManModel, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
     StartGravityEvent(JumperManModel);
 
     render();

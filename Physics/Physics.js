@@ -303,10 +303,11 @@ function getRandomSpikeMovement(model, maxBelow, maxAbove, velocity)
         model.Physics.xy_velocity[0] = velocity;
     }
 
-    // If the random number gives a number greater than 1.0, negate it
+    // If the random number gives a number greater than maxAbove, negate it
     // Valid range determined by highest y_value of given environment object
     var valid_range = Math.round( (maxAbove - maxBelow) * 100 );
     var pos = (Math.random() * valid_range) / 100;
+    pos += maxBelow;
     if(pos > maxAbove)
     {
         pos = (-1) * (pos - maxAbove);

@@ -59,13 +59,12 @@ function keyUp(event)
 
 function canvasClicked(event)
 {
-    //1000.0, 800.0
     var canvasX = event.clientX;
     var canvasY = event.clientY;
 
     // Converting to clipspace coords
-    xCoord = 2.0 * canvasX / 1000.0-1.0;
-    yCoord = -(2.0 * canvasY / 800.0-1.0);
+    xCoord = 2.0 * canvasX / VIEWPORT_WIDTH-1.0;
+    yCoord = -(2.0 * canvasY / VIEWPORT_HEIGHT-1.0);
 
     //console.log(xCoord);
     //console.log(yCoord);
