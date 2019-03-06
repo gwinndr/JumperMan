@@ -11,6 +11,7 @@ var DIFFICULTY = "Easy";
 // WebGL needed variables
 var gl;
 var time_label;
+var score_label;
 var ShaderProgram;
 
 // Jumperman Model and his pellets
@@ -31,6 +32,7 @@ var GameStartTimeSeconds;
 var GameWon;
 var GameLost;
 var TimeToWinSeconds = 30;
+var Score;
 
 // Model tweaking
 var NumPolyPerCircle = 100;
@@ -62,7 +64,9 @@ function init()
     canvas.height = VIEWPORT_HEIGHT;
 
     time_label = document.getElementById("time-label");
-    time_label.innerHTML = "0";
+    time_label.innerHTML = "Time: 0";
+    score_label = document.getElementById("score-label");
+    score_label.innerHTML = "Score: 0";
 
     // Set up the viewport
     gl.viewport( 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT );   // x, y, width, height
@@ -78,6 +82,7 @@ function init()
 
     GameWon = false;
     GameLost = false;
+    Score = 0;
 
     InitializeSpikeTraps();
 
@@ -147,7 +152,8 @@ function CheckWin()
 {
     var cur_t = GetSecondsSinceEpoch();
     var time_survived = (cur_t - GameStartTimeSeconds);
-    time_label.innerHTML = Math.floor(time_survived.toString());
+    time_label.innerHTML = "Time: " + Math.floor(time_survived.toString());
+
     if( time_survived >= TimeToWinSeconds )
     {
         GameWon = true;
@@ -298,6 +304,9 @@ function PelletSpikeCollision()
                 ++spike_model.NumPelletHits;
                 if(spike_model.NumPelletHits >= SpikePelletHits)
                 {
+                    ++Score;
+                    score_label.innerHTML = "Score: " + Score.toString();
+
                     spike_model.Render = false;
                 }
             }
