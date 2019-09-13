@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+            <title>JumperManModelEnvironment</title>
+            <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+            <script type="text/javascript" src="../Common/initShaders.js"></script>
+            <script type="text/javascript" src="../Common/MV.js"></script>
+            <script type="text/javascript" src="ModelTestEnvironment.js"></script>
+            <script type="text/javascript" src="Circles.js"></script>
+            <script type="text/javascript" src="RenderModel.js"></script>
+
+            <!-- Defining the models to test here -->
+            <script type="text/javascript" src="JumperManModel.js"></script>
+            <script type="text/javascript" src="SpikeModel.js"></script>
+            <script type="text/javascript" src="PlatformModel.js"></script>
+            <script type="text/javascript" src="PelletModel.js"></script>
+
+            <script type="x-shader/x-vertex" id="vertex-shader">
+                attribute vec4 myPosition;
+
+                // I'd rather have this computation done in the shader
+                uniform float rotationTheta;
+                uniform float transX;
+                uniform float transY;
+
+                void main()
+                {
+                    float xi;
+                    float yi;
+
+                    xi = myPosition.x;
+                    yi = myPosition.y;
+
+                    gl_Position.x = xi * cos(rotationTheta) +
+                        yi * sin(rotationTheta)
+                        + transX;
+
+                    gl_Position.y = xi * -sin(rotationTheta) +
+                        yi * cos(rotationTheta)
+                        + transY;
+
+                    gl_Position.z = myPosition.z;
+                    gl_Position.w = myPosition.w;
+                }
+            </script>
+
+            <script type="x-shader/x-fragment" id="fragment-shader">
+                precision mediump float;
+                uniform vec4 color;
+
+                void main()
+                {
+                    gl_FragColor = color;
+                }
+            </script>
+    </head>
+
+    <body onload="initTestEnvironment()">
+        <canvas width="900" height="700" id="gl-canvas">
+        </canvas>
+    </body>
+</html>
